@@ -18,26 +18,48 @@
 </head>
 
 <body ng-controller="videoController">
-    <div class="list-posts">
-        <div class="row" ng-repeat="video in videos.data | limitTo: 10">
-            <div class="post col-lg-4">
-                <a href="{{ video.user.link }}">
-                    <img ng-src="{{ video.user.pictures.sizes[3].link }}" width="{{ video.user.pictures.sizes[3].width }}" height="{{ video.user.pictures.sizes[3].height }}"
-                        alt="{{ video.user.name }}">
-                </a>
+    <div class="container">
+        <h1>Frontend developer challenge</h1>
+        <form>
+            <div class="form-group">
+                <label for="numberResults">Display by:</label>
+                <select class="form-control" name="numberResults" ng-model="numberResults" value="10">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
             </div>
-            <div class="post col-lg-8">
-                <a ng-href="{{ video.link }}">
-                    {{ video.name }}
-                </a>
-                <!-- Display Description -->
-                <p> {{ video.description }} </p>
-                <!-- Display number of plays -->
-                <b> Number of play:  {{ video.stats.plays }}</b>
-                <!-- Display number of comments -->
-                <b> Number of comment:  {{ video.metadata.connections.comments.total }}</b>
-                <!-- Display number of likes -->
-                <b> Number of like:  {{ video.metadata.connections.likes.total }}</b>
+
+            <div class="form-group">
+                <label for="usr"> Filter videos based on text in the description:</label>
+                <input class="form-control" type="text" name="descriptionFilter" value="" ng-model="descriptionFilter">
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label><input type="checkbox" value="" name="gtTen" ng-modal="gtTen" ng-true-value="true" ng-false-value="false">Filter videos from users that have more than 10 likes</label>
+                </div>
+            </div>
+        </form>
+        <div class="list-posts">
+            <div class="row post" ng-repeat="video in videos.data | limitTo : numberResults | filter : {description: descriptionFilter}  ">
+                <div class="post-img col-xs-1 col-lg-1">
+                    <a ng-href="{{ video.user.link }}">
+                        <img ng-src="{{ video.user.pictures.sizes[3].link }}" alt="{{ video.user.name }}" title="{{ video.user.name }}">
+                    </a>
+                </div>
+                <div class="post-description col-xs-11 col-lg-11">
+                    <a ng-href="{{ video.link }}">
+                        {{ video.name }}
+                    </a>
+                    <!-- Display Description -->
+                    <p> {{ video.description | limitTo : 150}} </p>
+                    <!-- Display number of plays -->
+                    <b> Number of play:  {{ video.stats.plays }}</b>
+                    <!-- Display number of comments -->
+                    <b> Number of comment:  {{ video.metadata.connections.comments.total }}</b>
+                    <!-- Display number of likes -->
+                    <b> Number of like:  {{ video.metadata.connections.likes.total }}</b>
+                </div>
             </div>
         </div>
     </div>
