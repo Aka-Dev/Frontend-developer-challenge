@@ -4,13 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title></title>
+    <title>Frontend developer challenge</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/main.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
@@ -20,45 +21,50 @@
 <body ng-controller="videoController">
     <div class="container">
         <h1>Frontend developer challenge</h1>
-        <form>
-            <div class="form-group">
-                <label for="numberResults">Display by:</label>
-                <select class="form-control" name="numberResults" ng-model="numberResults" value="10">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                </select>
-            </div>
+        <div class="row">
+            <form class="col-lg-3 filter" name="myForm">
+                <div class="form-group">
+                    <label for="numberResults">Display by:</label>
+                    <select class="form-control" ng-model="numberResults" name="numberResults" ng-init="numberResults=10">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="usr"> Filter videos based on text in the description:</label>
-                <input class="form-control" type="text" name="descriptionFilter" value="" ng-model="descriptionFilter">
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label><input type="checkbox" value="" name="gtTen" ng-modal="gtTen" ng-true-value="true" ng-false-value="false">Filter videos from users that have more than 10 likes</label>
+                <div class="form-group">
+                    <label for="usr"> Filter videos based on text in the description:</label>
+                    <input class="form-control" type="text" name="descriptionFilter" value="" ng-model="descriptionFilter">
                 </div>
-            </div>
-        </form>
-        <div class="list-posts">
-            <div class="row post" ng-repeat="video in videos.data | limitTo : numberResults | filter : {description: descriptionFilter}  ">
-                <div class="post-img col-xs-1 col-lg-1">
-                    <a ng-href="{{ video.user.link }}">
-                        <img ng-src="{{ video.user.pictures.sizes[3].link }}" alt="{{ video.user.name }}" title="{{ video.user.name }}">
-                    </a>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" name="gtTen" ng-model="gtTen" >Filter videos from users that have more than 10 likes</label>
+                    </div>
                 </div>
-                <div class="post-description col-xs-11 col-lg-11">
-                    <a ng-href="{{ video.link }}">
-                        {{ video.name }}
-                    </a>
-                    <!-- Display Description -->
-                    <p> {{ video.description | limitTo : 150}} </p>
-                    <!-- Display number of plays -->
-                    <b> Number of play:  {{ video.stats.plays }}</b>
-                    <!-- Display number of comments -->
-                    <b> Number of comment:  {{ video.metadata.connections.comments.total }}</b>
-                    <!-- Display number of likes -->
-                    <b> Number of like:  {{ video.metadata.connections.likes.total }}</b>
+            </form>
+            <div class="col-lg-9 list-items">
+                <div class="row item" ng-repeat="video in videos.data | limitTo : numberResults  | filter : {description: descriptionFilter} " ng-hide="gtTen === true && {{ video.user.metadata.connections.likes.total < 10 }}">
+                    <div class="item-img col-xs-2 col-lg-1">
+                        <a ng-href="{{ video.user.link }}">
+                            <img ng-src="{{ video.user.pictures.sizes[3].link }}" alt="{{ video.user.name }}" title="{{ video.user.name }}">
+                        </a>
+                    </div>
+                    <div class="item-description col-xs-10 col-lg-11">
+                        <a ng-href="{{ video.link }}">
+                            <h2>{{ video.name }}</h2>
+                        </a>
+                        <!-- Display Description -->
+                        <p> {{ video.description | limitTo : 200}}<span ng-show="video.description.length > 200">...</span> </p>
+
+                        <div class="wrap">
+                            <!-- Display number of plays -->
+                            <span class="icon players"><i class="icon-youtube"></i>{{ video.stats.plays }}</span>
+                            <!-- Display number of comments -->
+                            <span class="icon comments"><i class="icon-chat"></i>{{ video.metadata.connections.comments.total }}</span>
+                            <!-- Display number of likes -->
+                            <span class="icon likes"> <i class="icon-like"></i>{{ video.metadata.connections.likes.total }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,19 +1,75 @@
+html {
+    font-size: 16px;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+}
 [class*="col-"] {
     padding-right: 0;
     padding-left: 0;
 }
-.post {
-    max-width: 720px;
-    margin: 25px auto;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, .35);
+.row {
+    margin-right: 0;
+    margin-left: 0;
 }
-.post-img img{
+h1 {
+    margin-top: 2.188rem;
+    margin-bottom: 3.125rem;
+    text-align: center;
+}
+h2 {
+    margin-top: 0;
+    word-break: break-word;
+}
+p {
+    margin-bottom: 1.25rem;
+    font-size: 0.938rem;
+    word-break: break-word;
+}
+
+.filter {
+    margin-bottom: 0.938rem;
+}
+
+.filter,
+.item  {
+    padding: 0.625rem;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 0.125rem 1rem 0px rgba(0, 0, 0, .35);
+}
+
+/* Item style */
+.item {
+    max-width: 45rem;
+    margin: 0 auto 0.938rem;
+}
+
+.item-img img{
     max-width: 56px;
     width: 100%;
+    border-radius: 50%;
 }
-.post-description {
-    padding-left: 10px;
+
+.item-description {
+    padding-left: 1.625rem;
+}
+
+/* Style players, comments and likes */
+.icon {
+    position: relative;
+    font-family: 'icomoon';
+    font-weight: 400;
+    font-size: 0.750rem;
+    color: #aab8c2;
+}
+.icon:not(:first-of-type) {
+    padding-left: 1.25rem;
+}
+[class^="icon-"], [class*=" icon-"] {
+    padding-right: 0.313rem;
+}
+[class^="icon-"]:before, 
+[class*=" icon-"]:before {
+    font-size: 0.875rem;
 }
