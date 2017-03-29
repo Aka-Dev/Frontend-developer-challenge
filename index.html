@@ -24,14 +24,14 @@
                 <div class="form-group">
                     <label for="numberResults">Display by:</label>
                     <select class="form-control" ng-model="numberResults" name="numberResults">
-                        <option value="10">10</option>
+                        <option value="10" ng-selected="true">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="usr"> Filter videos based on text in the description:</label>
+                    <label for="descriptionFilter"> Filter videos based on text in the description:</label>
                     <input class="form-control" type="text" name="descriptionFilter" value="" placeholder="Description" ng-model="descriptionFilter">
                 </div>
                 <div class="form-group">
