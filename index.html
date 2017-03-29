@@ -14,18 +14,16 @@
     <link rel="stylesheet" href="css/icomoon.css">
     <link rel="stylesheet" href="css/main.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
-    <script src="app.js"></script>
 </head>
 
 <body ng-controller="videoController">
     <div class="container">
         <h1>Frontend developer challenge</h1>
         <div class="row">
-            <form class="col-lg-3 filter" name="myForm">
+            <form ng-class="classForm" name="myForm" ng-hide="current-page > 1">
                 <div class="form-group">
                     <label for="numberResults">Display by:</label>
-                    <select class="form-control" ng-model="numberResults" name="numberResults" ng-init="numberResults=10">
+                    <select class="form-control" ng-model="numberResults" name="numberResults">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -34,7 +32,7 @@
 
                 <div class="form-group">
                     <label for="usr"> Filter videos based on text in the description:</label>
-                    <input class="form-control" type="text" name="descriptionFilter" value="" ng-model="descriptionFilter">
+                    <input class="form-control" type="text" name="descriptionFilter" value="" placeholder="Description" ng-model="descriptionFilter">
                 </div>
                 <div class="form-group">
                     <div class="checkbox">
@@ -42,8 +40,9 @@
                     </div>
                 </div>
             </form>
-            <div class="col-lg-9 list-items">
-                <div class="row item" ng-repeat="video in videos.data | limitTo : numberResults  | filter : {description: descriptionFilter} " ng-hide="gtTen === true && {{ video.user.metadata.connections.likes.total < 10 }}">
+            <div ng-class="classListItems">
+                <div class="row item" dir-paginate="video in filtered = (videos.data | filter : {description: descriptionFilter}) | itemsPerPage : numberResults | orderBy" 
+                                      ng-hide="gtTen === true && {{ video.user.metadata.connections.likes.total < 10 }}">
                     <div class="item-img col-xs-2 col-lg-1">
                         <a ng-href="{{ video.user.link }}">
                             <img ng-src="{{ video.user.pictures.sizes[3].link }}" alt="{{ video.user.name }}" title="{{ video.user.name }}">
@@ -58,17 +57,25 @@
 
                         <div class="wrap">
                             <!-- Display number of plays -->
-                            <span class="icon players"><i class="icon-youtube"></i>{{ video.stats.plays }}</span>
+                            <span class="icon players"><i class="icon-youtube"></i>{{ video.stats.plays === null ? 0 : video.stats.plays | number }}</span>
                             <!-- Display number of comments -->
-                            <span class="icon comments"><i class="icon-chat"></i>{{ video.metadata.connections.comments.total }}</span>
+                            <span class="icon comments"><i class="icon-chat"></i>{{ video.metadata.connections.comments.total === null ? 0 : video.metadata.connections.comments.total | number }}</span>
                             <!-- Display number of likes -->
-                            <span class="icon likes"> <i class="icon-like"></i>{{ video.metadata.connections.likes.total }}</span>
+                            <span class="icon likes"> <i class="icon-like"></i>{{ video.metadata.connections.likes.total === null ? 0 : video.metadata.connections.likes.total | number }}</span>
                         </div>
                     </div>
                 </div>
+                    <dir-pagination-controls
+                    template-url="pagination/dirPagination.tpl.html"
+                    on-page-change="hideForm(newPageNumber)" >
+                    </dir-pagination-controls>
             </div>
         </div>
     </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+    <script src="js/vendor/dirPagination.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>

@@ -36,6 +36,7 @@ p {
     padding: 0.625rem;
     border-radius: 5px;
     background-color: #fff;
+    border: 1px solid #e6ecf0;    
     box-shadow: 0px 0.125rem 1rem 0px rgba(0, 0, 0, .35);
 }
 
@@ -72,4 +73,11 @@ p {
 [class^="icon-"]:before, 
 [class*=" icon-"]:before {
     font-size: 0.875rem;
+}
+
+/* Pagination */
+
+.pagination {
+    float: right;
+    margin-right: 4rem;
 }
